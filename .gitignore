@@ -1,0 +1,7 @@
+/build/
+/.gradle/
+/.idea/
+/.nb-gradle/
+/out/
+VMF-Text-Tests.iml
+

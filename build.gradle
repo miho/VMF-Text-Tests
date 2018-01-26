@@ -1,0 +1,140 @@
+apply plugin: 'java'
+
+sourceCompatibility = '1.8'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+if (!hasProperty('mainClass')) {
+    ext.mainClass = 'eu.mihosoft.vmftext.tutorial.Main'
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+        mavenLocal()
+    }
+    dependencies {
+        classpath group: 'eu.mihosoft.vmf', name: 'vmf-text', version: '0.1-SNAPSHOT'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.3'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    mavenLocal()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ["$buildDir/vmf-text-src-gen/", 'src/main/java']
+        }
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.10'
+    testCompile group: 'org.mdkt.compiler', name: 'InMemoryJavaCompiler', version: '1.3.0'
+    testCompile group: 'org.codehaus.groovy', name: 'groovy', version: '2.4.12'
+
+    compile group: 'eu.mihosoft.vmf', name: 'vmf-runtime', version: '0.1-SNAPSHOT'
+    compile (group: 'org.antlr', name: 'antlr4', version: '4.7')
+
+    compile 'commons-jxpath:commons-jxpath:1.3'
+}
+
+
+task vmfGenModelSources(dependsOn: ['cleanVmf']) {
+
+    // execute the task
+    doLast {
+      eu.mihosoft.vmf.vmftext.VMFText.generate(
+              // grammar file
+              new File("test-code/ArrayLang.g4"),
+              // desired package name
+              "eu.mihosoft.vmftext.tests.arraylang",
+              // desired output directory
+              new File("$buildDir/vmf-text-src-gen/")
+      )
+        eu.mihosoft.vmf.vmftext.VMFText.generate(
+                // grammar file
+                new File("test-code/MiniJava.g4"),
+                // desired package name
+                "eu.mihosoft.vmftext.tests.minijava",
+                // desired output directory
+                new File("$buildDir/vmf-text-src-gen/")
+        )
+        eu.mihosoft.vmf.vmftext.VMFText.generate(
+                // grammar file
+                new File("test-code/ExpressionLang.g4"),
+                // desired package name
+                "eu.mihosoft.vmftext.tests.expressionlang",
+                // desired output directory
+                new File("$buildDir/vmf-text-src-gen/")
+        )
+        eu.mihosoft.vmf.vmftext.VMFText.generate(
+                // grammar file
+                new File("test-code/ExpressionLangPlus.g4"),
+                // desired package name
+                "eu.mihosoft.vmftext.tests.expressionlangplus",
+                // desired output directory
+                new File("$buildDir/vmf-text-src-gen/")
+        )
+        eu.mihosoft.vmf.vmftext.VMFText.generate(
+                // grammar file
+                new File("test-code/ZeroToMany.g4"),
+                // desired package name
+                "eu.mihosoft.vmftext.tests.zerotomany",
+                // desired output directory
+                new File("$buildDir/vmf-text-src-gen/")
+        )
+        eu.mihosoft.vmf.vmftext.VMFText.generate(
+                // grammar file
+                new File("test-code/OneToMany.g4"),
+                // desired package name
+                "eu.mihosoft.vmftext.tests.onetomany",
+                // desired output directory
+                new File("$buildDir/vmf-text-src-gen/")
+        )
+        eu.mihosoft.vmf.vmftext.VMFText.generate(
+                // grammar file
+                new File("test-code/Java8.g4"),
+                // desired package name
+                "eu.mihosoft.vmftext.tests.java8",
+                // desired output directory
+                new File("$buildDir/vmf-text-src-gen/")
+        )
+        eu.mihosoft.vmf.vmftext.VMFText.generate(
+                // grammar file
+                new File("test-code/MatchCorrectAltTest.g4"),
+                // desired package name
+                "eu.mihosoft.vmftext.tests.matchcorrectalt",
+                // desired output directory
+                new File("$buildDir/vmf-text-src-gen/")
+        )
+        eu.mihosoft.vmf.vmftext.VMFText.generate(
+                // grammar file
+                new File("test-code/MatchCorrectAltTestTerminalOnly.g4"),
+                // desired package name
+                "eu.mihosoft.vmftext.tests.matchcorrectaltterminal",
+                // desired output directory
+                new File("$buildDir/vmf-text-src-gen/")
+        )
+      println("DONE.")
+    }
+}
+
+task cleanVmf {
+  doLast {
+      delete "$buildDir/vmf-text-src-gen/"
+  }
+}
+
+compileJava.dependsOn('vmfGenModelSources')
+
+
