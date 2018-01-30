@@ -7,6 +7,8 @@ rule1: (content=~ABC 'altOne' | content=~DEF 'altTwo');
 
 rule2: (content=~ABC 'altOne' | content=ABC 'altOne');
 
+rule3: content=~'here';
+
 ABC: [abc]+;
 
 DEF: [def]+;
