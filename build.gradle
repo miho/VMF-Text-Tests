@@ -53,14 +53,14 @@ task vmfGenModelSources(dependsOn: ['cleanVmf']) {
 
     // execute the task
     doLast {
-      eu.mihosoft.vmf.vmftext.VMFText.generate(
-              // grammar file
-              new File("test-code/ArrayLang.g4"),
-              // desired package name
-              "eu.mihosoft.vmftext.tests.arraylang",
-              // desired output directory
-              new File("$buildDir/vmf-text-src-gen/")
-      )
+        eu.mihosoft.vmf.vmftext.VMFText.generate(
+                // grammar file
+                new File("test-code/ArrayLang.g4"),
+                // desired package name
+                "eu.mihosoft.vmftext.tests.arraylang",
+                // desired output directory
+                new File("$buildDir/vmf-text-src-gen/")
+        )
         eu.mihosoft.vmf.vmftext.VMFText.generate(
                 // grammar file
                 new File("test-code/MiniJava.g4"),
