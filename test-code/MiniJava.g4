@@ -4,18 +4,18 @@ grammar MiniJava;
 
 TypeMap() {
   IntegerLiteral    -> java.lang.Integer via (
-      "java.lang.Integer.parseInt(entry.getText())",
-      "entry.toString()"
+      'java.lang.Integer.parseInt(entry.getText())',
+      'entry.toString()'
   )
-  // DOUBLE -> java.lang.Double  via "java.lang.Double.parseDouble(entry.getText())"
+  // DOUBLE -> java.lang.Double  via 'java.lang.Double.parseDouble(entry.getText())'
   BooleanLiteral    -> java.lang.Boolean via (
-      "java.lang.Boolean.parseBoolean(entry.getText())",
-      "entry.toString()"
+      'java.lang.Boolean.parseBoolean(entry.getText())',
+      'entry.toString()'
   )
 
   ARRAYTYPE    -> java.lang.Boolean via (
-      "eu.mihosoft.vmftext.tests.minijava.TypeConverter.stringToType(entry.getText())",
-      "eu.mihosoft.vmftext.tests.minijava.TypeConverter.typeToString(entry)"
+      'eu.mihosoft.vmftext.tests.minijava.TypeConverter.stringToType(entry.getText())',
+      'eu.mihosoft.vmftext.tests.minijava.TypeConverter.typeToString(entry)'
   )
 
 }

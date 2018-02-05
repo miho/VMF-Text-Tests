@@ -42,8 +42,8 @@ LINE_COMMENT
 /*<!vmf-text!>
 
 TypeMap() {
-  INT    -> java.lang.Integer via "java.lang.Integer.parseInt(entry.getText())"
-  DOUBLE -> java.lang.Double  via "java.lang.Double.parseDouble(entry.getText())"
+  INT    -> java.lang.Integer via 'java.lang.Integer.parseInt(entry.getText())'
+  DOUBLE -> java.lang.Double  via 'java.lang.Double.parseDouble(entry.getText())'
 }
 
 */

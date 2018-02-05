@@ -884,7 +884,7 @@ TypeMap() {
     'java.lang.Double.parseDouble(entry.getText())',
     'java.lang.Double.toHexString(entry)'
   )
-  FLOAT_LITERAL -> java.lang.Double  via "java.lang.Double.parseDouble(entry.getText())"
+  FLOAT_LITERAL -> java.lang.Double  via 'java.lang.Double.parseDouble(entry.getText())'
 }
 
 */
