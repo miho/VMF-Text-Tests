@@ -133,6 +133,14 @@ task vmfGenModelSources(dependsOn: ['cleanVmf']) {
                 // desired output directory
                 new File("$buildDir/vmf-text-src-gen/")
         )
+        eu.mihosoft.vmf.vmftext.VMFText.generate(
+                // grammar file
+                new File("test-code/CSGLang.g4"),
+                // desired package name
+                "eu.mihosoft.vmftext.tests.csglang",
+                // desired output directory
+                new File("$buildDir/vmf-text-src-gen/")
+        )
       println("DONE.")
     }
 }
