@@ -153,4 +153,5 @@ task cleanVmf {
 
 compileJava.dependsOn('vmfGenModelSources')
 
-
+// fix current working directory on android
+test { forkEvery = 1; workingDir = { projectDir } }
