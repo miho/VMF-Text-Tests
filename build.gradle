@@ -55,7 +55,7 @@ task vmfGenModelSources(dependsOn: ['cleanVmf']) {
     doLast {
         eu.mihosoft.vmf.vmftext.VMFText.generate(
                 // grammar file
-                new File("test-code/ArrayLang.g4"),
+                new File(projectDir,"test-code/ArrayLang.g4"),
                 // desired package name
                 "eu.mihosoft.vmftext.tests.arraylang",
                 // desired output directory
@@ -63,7 +63,7 @@ task vmfGenModelSources(dependsOn: ['cleanVmf']) {
         )
         eu.mihosoft.vmf.vmftext.VMFText.generate(
                 // grammar file
-                new File("test-code/MiniJava.g4"),
+                new File(projectDir,"test-code/MiniJava.g4"),
                 // desired package name
                 "eu.mihosoft.vmftext.tests.minijava",
                 // desired output directory
@@ -71,7 +71,7 @@ task vmfGenModelSources(dependsOn: ['cleanVmf']) {
         )
         eu.mihosoft.vmf.vmftext.VMFText.generate(
                 // grammar file
-                new File("test-code/ExpressionLang.g4"),
+                new File(projectDir,"test-code/ExpressionLang.g4"),
                 // desired package name
                 "eu.mihosoft.vmftext.tests.expressionlang",
                 // desired output directory
@@ -79,7 +79,7 @@ task vmfGenModelSources(dependsOn: ['cleanVmf']) {
         )
         eu.mihosoft.vmf.vmftext.VMFText.generate(
                 // grammar file
-                new File("test-code/ExpressionLangPlus.g4"),
+                new File(projectDir,"test-code/ExpressionLangPlus.g4"),
                 // desired package name
                 "eu.mihosoft.vmftext.tests.expressionlangplus",
                 // desired output directory
@@ -87,7 +87,7 @@ task vmfGenModelSources(dependsOn: ['cleanVmf']) {
         )
         eu.mihosoft.vmf.vmftext.VMFText.generate(
                 // grammar file
-                new File("test-code/ZeroToMany.g4"),
+                new File(projectDir,"test-code/ZeroToMany.g4"),
                 // desired package name
                 "eu.mihosoft.vmftext.tests.zerotomany",
                 // desired output directory
@@ -95,7 +95,7 @@ task vmfGenModelSources(dependsOn: ['cleanVmf']) {
         )
         eu.mihosoft.vmf.vmftext.VMFText.generate(
                 // grammar file
-                new File("test-code/OneToMany.g4"),
+                new File(projectDir,"test-code/OneToMany.g4"),
                 // desired package name
                 "eu.mihosoft.vmftext.tests.onetomany",
                 // desired output directory
@@ -103,7 +103,7 @@ task vmfGenModelSources(dependsOn: ['cleanVmf']) {
         )
         eu.mihosoft.vmf.vmftext.VMFText.generate(
                 // grammar file
-                new File("test-code/Java8.g4"),
+                new File(projectDir,"test-code/Java8.g4"),
                 // desired package name
                 "eu.mihosoft.vmftext.tests.java8",
                 // desired output directory
@@ -111,7 +111,7 @@ task vmfGenModelSources(dependsOn: ['cleanVmf']) {
         )
         eu.mihosoft.vmf.vmftext.VMFText.generate(
                 // grammar file
-                new File("test-code/MatchCorrectAltTest.g4"),
+                new File(projectDir,"test-code/MatchCorrectAltTest.g4"),
                 // desired package name
                 "eu.mihosoft.vmftext.tests.matchcorrectalt",
                 // desired output directory
@@ -119,7 +119,7 @@ task vmfGenModelSources(dependsOn: ['cleanVmf']) {
         )
         eu.mihosoft.vmf.vmftext.VMFText.generate(
                 // grammar file
-                new File("test-code/MatchCorrectAltTestTerminalOnly.g4"),
+                new File(projectDir,"test-code/MatchCorrectAltTestTerminalOnly.g4"),
                 // desired package name
                 "eu.mihosoft.vmftext.tests.matchcorrectaltterminal",
                 // desired output directory
@@ -127,7 +127,7 @@ task vmfGenModelSources(dependsOn: ['cleanVmf']) {
         )
         eu.mihosoft.vmf.vmftext.VMFText.generate(
                 // grammar file
-                new File("test-code/NotOp.g4"),
+                new File(projectDir,"test-code/NotOp.g4"),
                 // desired package name
                 "eu.mihosoft.vmftext.tests.notoptest",
                 // desired output directory
@@ -135,7 +135,7 @@ task vmfGenModelSources(dependsOn: ['cleanVmf']) {
         )
         eu.mihosoft.vmf.vmftext.VMFText.generate(
                 // grammar file
-                new File("test-code/CSGLang.g4"),
+                new File(projectDir,"test-code/CSGLang.g4"),
                 // desired package name
                 "eu.mihosoft.vmftext.tests.csglang",
                 // desired output directory
