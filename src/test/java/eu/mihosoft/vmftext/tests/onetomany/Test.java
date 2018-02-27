@@ -6,7 +6,7 @@ import eu.mihosoft.vmftext.tests.onetomany.unparser.OneToManyModelUnparser;
 
 
 public class Test {
-    @org.junit.Test(timeout = 1000/*ms*/)
+    @org.junit.Test(timeout = 10000/*ms*/)
     public void oneToManyTest() {
         OneToManyModelParser parser = new OneToManyModelParser();
         OneToManyModel model = parser.parse("(12.34value:3.2)[]");
