@@ -42,6 +42,9 @@ dependencies {
     testCompile group: 'org.mdkt.compiler', name: 'InMemoryJavaCompiler', version: '1.3.0'
     testCompile group: 'org.codehaus.groovy', name: 'groovy', version: '2.4.12'
 
+    testCompile group: 'eu.mihosoft.vtcc', name: 'vtcc', version: '2018.1.4'
+    testCompile group: 'eu.mihosoft.vtcc.tccdist', name: 'tcc-dist', version: '2018.1.3'
+
     compile group: 'eu.mihosoft.vmf', name: 'vmf-runtime', version: '0.1-SNAPSHOT'
     compile (group: 'org.antlr', name: 'antlr4', version: '4.7')
 
@@ -140,6 +143,16 @@ task vmfGenModelSources(dependsOn: ['cleanVmf']) {
                 "eu.mihosoft.vmftext.tests.csglang",
                 // desired output directory
                 new File("$buildDir/vmf-text-src-gen/")
+        )
+        eu.mihosoft.vmf.vmftext.VMFText.generate(
+                // grammar file
+                new File(projectDir,"test-code/MiniClang.g4"),
+                // desired package name
+                "eu.mihosoft.vmftext.tests.miniclang",
+                // desired output directory
+                new File("$buildDir/vmf-text-src-gen/"),
+                // model output dir for debugging
+                new File("$buildDir/vmf-text-src-modelgen/")
         )
       println("DONE.")
     }
