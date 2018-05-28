@@ -154,6 +154,26 @@ task vmfGenModelSources(dependsOn: ['cleanVmf']) {
                 // model output dir for debugging
                 new File("$buildDir/vmf-text-src-modelgen/")
         )
+        eu.mihosoft.vmf.vmftext.VMFText.generate(
+                // grammar file
+                new File(projectDir,"test-code/TypeMappings.g4"),
+                // desired package name
+                "eu.mihosoft.vmftext.tests.typemappings",
+                // desired output directory
+                new File("$buildDir/vmf-text-src-gen/"),
+                // model output dir for debugging
+                new File("$buildDir/vmf-text-src-modelgen/")
+        )
+        eu.mihosoft.vmf.vmftext.VMFText.generate(
+                // grammar file
+                new File(projectDir,"test-code/JSON.g4"),
+                // desired package name
+                "eu.mihosoft.vmftext.tests.json",
+                // desired output directory
+                new File("$buildDir/vmf-text-src-gen/"),
+                // model output dir for debugging
+                new File("$buildDir/vmf-text-src-modelgen/")
+        )
       println("DONE.")
     }
 }
