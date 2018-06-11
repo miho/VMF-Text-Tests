@@ -62,7 +62,9 @@ task vmfGenModelSources(dependsOn: ['cleanVmf']) {
                 // desired package name
                 "eu.mihosoft.vmftext.tests.arraylang",
                 // desired output directory
-                new File("$buildDir/vmf-text-src-gen/")
+                new File("$buildDir/vmf-text-src-gen/"),
+                        // model output dir for debugging
+                new File("$buildDir/vmf-text-src-modelgen/")
         )
         eu.mihosoft.vmf.vmftext.VMFText.generate(
                 // grammar file
@@ -185,6 +187,7 @@ task cleanVmf {
 }
 
 compileJava.dependsOn('vmfGenModelSources')
+test.dependsOn('vmfGenModelSources')
 
 // fix current working directory on android
 test { forkEvery = 1; workingDir = { projectDir } }

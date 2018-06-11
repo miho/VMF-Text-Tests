@@ -1,5 +1,10 @@
 package eu.mihosoft.vmftext.tests.minijava;
 
+import eu.mihosoft.vmftext.tests.expressionlang.Expr;
+import eu.mihosoft.vmftext.tests.expressionlang.NumberExpr;
+import eu.mihosoft.vmftext.tests.expressionlang.ParanExpr;
+import eu.mihosoft.vmftext.tests.expressionlang.PlusMinusOpExpr;
+import eu.mihosoft.vmftext.tests.expressionlang.parser.ExpressionLangModelParser;
 import eu.mihosoft.vmftext.tests.minijava.parser.MiniJavaModelParser;
 import eu.mihosoft.vmftext.tests.minijava.unparser.BaseFormatter;
 import eu.mihosoft.vmftext.tests.minijava.unparser.Formatter;
@@ -273,6 +278,26 @@ public class Test {
         Assert.assertEquals(model, modelup);
 
     }
+
+
+    @org.junit.Test
+    public void testParsePerRule() {
+        MiniJavaModelParser parser = new MiniJavaModelParser();
+
+        ClassDeclaration classDeclaration = parser.parseClassDeclaration("class MyClass { }");
+
+        Assert.assertTrue("Expected class-decl., got " + classDeclaration.getClass(), classDeclaration instanceof ClassDeclaration);
+        Assert.assertEquals("MyClass", classDeclaration.getName());
+
+        Statement statement = parser.parseStatement("a = 2");
+
+        Assert.assertTrue("Expected variable-assignment-statement, got " + statement.getClass(), statement instanceof VariableAssignmentStatement);
+
+        VariableAssignmentStatement variableAssignmentStatement = (VariableAssignmentStatement) statement;
+
+        Assert.assertEquals("a", variableAssignmentStatement.getVarName());
+    }
+
 }
 
 
