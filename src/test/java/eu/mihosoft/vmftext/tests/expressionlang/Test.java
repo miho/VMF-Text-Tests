@@ -45,7 +45,6 @@ public class Test {
 
         Assert.assertEquals(2.5, numberExpr.getValue(), 1e-12);
 
-
         PlusMinusOpExpr op = parser.parsePlusMinusOpExpr("2 + 3");
 
         Assert.assertEquals("+", op.getOperator());

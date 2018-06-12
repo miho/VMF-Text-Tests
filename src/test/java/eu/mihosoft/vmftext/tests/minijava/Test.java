@@ -11,10 +11,17 @@ import eu.mihosoft.vmftext.tests.minijava.unparser.Formatter;
 import eu.mihosoft.vmftext.tests.minijava.unparser.IdentifierExpressionUnparser;
 import eu.mihosoft.vmftext.tests.minijava.unparser.MiniJavaModelUnparser;
 import groovy.lang.GroovyShell;
+import org.antlr.v4.runtime.ANTLRErrorListener;
+import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.atn.ATNConfigSet;
+import org.antlr.v4.runtime.dfa.DFA;
 import org.junit.Assert;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.BitSet;
 import java.util.Objects;
 
 
@@ -289,14 +296,61 @@ public class Test {
         Assert.assertTrue("Expected class-decl., got " + classDeclaration.getClass(), classDeclaration instanceof ClassDeclaration);
         Assert.assertEquals("MyClass", classDeclaration.getName());
 
-        Statement statement = parser.parseStatement("a = 2");
+        Statement statement = parser.parseStatement("a = 2;");
 
         Assert.assertTrue("Expected variable-assignment-statement, got " + statement.getClass(), statement instanceof VariableAssignmentStatement);
 
         VariableAssignmentStatement variableAssignmentStatement = (VariableAssignmentStatement) statement;
 
         Assert.assertEquals("a", variableAssignmentStatement.getVarName());
+
+        PrintStatement printStatement = parser.parsePrintStatement("System.out.println(12);");
+
+        Assert.assertEquals(printStatement.getPrintExpression(), parser.parseIntLitExpression("12"));
+
+
+        final boolean[] didThrow = {false};
+
+        try {
+            Statement s = parser.parsePrintStatement("a = 2;");
+        } catch (Exception ex ) {
+            didThrow[0]  =true;
+        }
+
+        Assert.assertTrue("Trying to parse a print-statement and specifying variable-assignment code should throw an exception.", didThrow[0]);
+
+        didThrow[0] = false;
+        final boolean[] didError = {false};
+        try {
+            parser.getErrorListeners().add(new ANTLRErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
+                    didError[0]  = true;
+                }
+
+                @Override
+                public void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, boolean exact, BitSet ambigAlts, ATNConfigSet configs) {
+                }
+
+                @Override
+                public void reportAttemptingFullContext(Parser recognizer, DFA dfa, int startIndex, int stopIndex, BitSet conflictingAlts, ATNConfigSet configs) {
+                }
+
+                @Override
+                public void reportContextSensitivity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet configs) {
+                }
+            });
+            ClassDeclaration cDecl = parser.parseClassDeclaration("a = 2;");
+            System.out.println("cDecl: " + cDecl);
+        } catch (Exception ex ) {
+            didThrow[0]  = true;
+        }
+
+        Assert.assertTrue("Trying to parse a class-decl. Should cause the error listeners to trigger.", didError[0]);
+        Assert.assertTrue("Trying to parse a class-decl. Should not throw an exception but cause the error listeners to trigger since class-decl ia not a rule with labeled alts", !didThrow[0]);
+
     }
+
 
 }
 
