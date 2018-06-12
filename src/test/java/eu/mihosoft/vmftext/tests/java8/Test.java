@@ -124,8 +124,99 @@ public class Test {
 
     }
 
+    @org.junit.Test
+    public void testParsePerRuleFieldDecl() {
+
+        Java8ModelParser parser = new Java8ModelParser();
+        Java8ModelUnparser unparser = new Java8ModelUnparser();
+
+        unparser.setFormatter(new MyFormatter());
+
+
+        FieldDeclaration fieldDecl = FieldDeclaration.newInstance();
+        fieldDecl.setFieldType(TypeType.newBuilder().withSimpleType(
+                DoubleType.newBuilder().build()).build());
+
+
+        VariableDeclarator varDecl = VariableDeclaratorWithExprInit.newBuilder().
+                withVarName("myVar1").withInitializer(
+                LiteralExpr.newBuilder().withLit(
+                        FloatLiteral.newBuilder().withFloatValue(2.5).build()
+                ).build()
+        ).build();
+
+        fieldDecl.getVarDecls().add(varDecl);
+
+        VariableDeclarator varDecl1 = VariableDeclaratorWithExprInit.newBuilder().
+                withVarName("myVar2").withInitializer(
+                LiteralExpr.newBuilder().withLit(
+                        FloatLiteral.newBuilder().withFloatValue(2.6).build()
+                ).build()
+        ).build();
+
+        fieldDecl.getVarDecls().add(varDecl1);
+
+        FieldDeclaration fieldDeclFromParser = parser.parseFieldDeclaration("double myVar1 = 2.5, myVar2 = 2.6;");
+
+        Assert.assertEquals(fieldDecl, fieldDeclFromParser);
+    }
+
+    @org.junit.Test
+    public void testParsePerRuleClassDecl() {
+
+        Java8ModelParser parser = new Java8ModelParser();
+        Java8ModelUnparser unparser = new Java8ModelUnparser();
+
+        unparser.setFormatter(new MyFormatter());
+
+        ClassDeclaration cDecl = ClassDeclaration.newInstance();
+        ClassBody clsBody = ClassBody.newInstance();
+
+        ClassBodyDeclaration clsBodyDecl = ClassBodyDeclaration.newInstance();
+        clsBodyDecl.getModifiers().add(Modifier.newBuilder().withTypeModifier(
+                ClassOrInterfaceModifier.newBuilder().withPrivateModifier("private").build()).build());
+
+        MemberDeclaration mDecl = MemberDeclaration.newInstance();
+
+        FieldDeclaration fieldDecl = FieldDeclaration.newInstance();
+        fieldDecl.setFieldType(TypeType.newBuilder().withSimpleType(
+                DoubleType.newBuilder().build()).build());
+
+        VariableDeclarator varDecl = VariableDeclaratorWithExprInit.newBuilder().
+                withVarName("myVar1").withInitializer(
+                LiteralExpr.newBuilder().withLit(
+                        FloatLiteral.newBuilder().withFloatValue(2.5).build()
+                ).build()
+        ).build();
+
+        fieldDecl.getVarDecls().add(varDecl);
+
+        VariableDeclarator varDecl1 = VariableDeclaratorWithExprInit.newBuilder().
+                withVarName("myVar2").withInitializer(
+                LiteralExpr.newBuilder().withLit(
+                        FloatLiteral.newBuilder().withFloatValue(2.6).build()
+                ).build()
+        ).build();
+
+        fieldDecl.getVarDecls().add(varDecl1);
+
+        mDecl.setFieldDecl(fieldDecl);
+
+        clsBodyDecl.setDeclaration(mDecl);
+        clsBody.getDeclarations().add(clsBodyDecl);
+
+        cDecl.setBody(clsBody);
+        cDecl.setClassName("MyClass");
+
+        ClassDeclaration cDeclFromParser = parser.parseClassDeclaration(
+                "class MyClass { private double myVar1 = 2.5, myVar2 = 2.6;}");
+
+        Assert.assertEquals(cDecl, cDeclFromParser);
+    }
+
     public void testCustomClassDefinition() {
 
+        Java8ModelParser parser = new Java8ModelParser();
         Java8ModelUnparser unparser = new Java8ModelUnparser();
 
         CompilationUnit unit = CompilationUnit.newInstance();
@@ -232,7 +323,10 @@ class MyFormatter extends BaseFormatter {
 //                || prevRuleText.equals("=")
 //                ) {
 //            w.append(" ");
-        } else {
+        } else if(
+                !(getPrevRuleInfo().getParentObject() instanceof QualifiedName)
+                && !(ruleInfo.getParentObject() instanceof PackageDeclaration)
+                ){
             w.append(" ");
         }
 
