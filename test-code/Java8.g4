@@ -595,7 +595,7 @@ innerCreator
     ;
 
 arrayCreatorRest
-    : '[' (']' ('[' ']')* arrayInitializer | expression ']' ('[' expression ']')* ('[' ']')*)
+    : '[' (']' ('[' ']')* initializer=arrayInitializer | expressions+=expression ']' ('[' expressions+=expression ']')* ('[' ']')*)
     ;
 
 classCreatorRest
