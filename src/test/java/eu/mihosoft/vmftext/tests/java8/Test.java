@@ -277,6 +277,46 @@ public class Test {
         System.out.println("F1: " + unparser.unparse(f1));
         System.out.println("F2: " + unparser.unparse(f2));
     }
+
+
+    @org.junit.Test
+    public void testChangeVoidMethod() throws Exception {
+
+        String code = "" +
+                "class MyClass {\n" +
+                "  public int m1() {return 0;}\n" +
+                "  public void m2(int a, int b) {\n" +
+                "    // do something\n" +
+                "  }\n" +
+                "  public java.util.List<String> m3(String a, String b) {\n" +
+                "    class InnerClass {\n" +
+                "      private void innerMethod() {}\n" +
+                "    }\n" +
+                "    return null;\n" +
+                "  }\n" +
+                "}\n";
+
+        Java8ModelParser parser = new Java8ModelParser();
+        Java8Model model = parser.parse(code);
+
+        model.vmf().content().stream(MethodDeclaration.class).filter(mD->mD.getType().getVoidType()!=null).
+                forEach(m->
+                   m.getParams().getParams().add(parser.parseFormalParameter("int insP"))
+                );
+
+        Java8ModelUnparser unparser = new Java8ModelUnparser();
+        unparser.setFormatter(new MyFormatter());
+
+        String transformed = unparser.unparse(model);
+
+        System.out.println("Original:    " + code);
+        System.out.println("Transformed: " + transformed);
+
+        Java8Model transformedModel = parser.parse(transformed);
+
+        Assert.assertEquals(model, transformedModel);
+
+    }
 }
 
 class MyFormatter extends BaseFormatter {
