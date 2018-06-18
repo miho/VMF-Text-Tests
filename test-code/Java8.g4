@@ -148,7 +148,7 @@ memberDeclaration
    for invalid return type after parsing.
  */
 methodDeclaration
-    : type=typeTypeOrVoid methodName=IDENTIFIER params=formalParameters arrayDims+=ARRAY_BRACKETS*
+    : type=typeTypeOrVoid methodName=IDENTIFIER params=formalParameterList arrayDims+=ARRAY_BRACKETS*
       (THROWS throwsExceptions=qualifiedNameList)?
       body=methodBody
     ;
@@ -172,7 +172,7 @@ genericConstructorDeclaration
     ;
 
 constructorDeclaration
-    : constructorName=IDENTIFIER params=formalParameters (THROWS throwsExceptions=qualifiedNameList)? constructorBody=block
+    : constructorName=IDENTIFIER params=formalParameterList (THROWS throwsExceptions=qualifiedNameList)? constructorBody=block
     ;
 
 fieldDeclaration
@@ -206,7 +206,7 @@ constantDeclarator
 // methodBody from Java8
 interfaceMethodDeclaration
     : modifiers+=interfaceMethodModifier* (type=typeTypeOrVoid | typeParams=typeParameters annotations+=annotation* type=typeTypeOrVoid)
-      methodName=IDENTIFIER params=formalParameters arrayDims+=ARRAY_BRACKETS* (THROWS throwsExceptions=qualifiedNameList)? body=methodBody
+      methodName=IDENTIFIER params=formalParameterList arrayDims+=ARRAY_BRACKETS* (THROWS throwsExceptions=qualifiedNameList)? body=methodBody
     ;
 
 // Java8
@@ -266,13 +266,9 @@ qualifiedNameList
     : names+=qualifiedName (',' names+=qualifiedName)*
     ;
 
-formalParameters
-    : '(' params=formalParameterList? ')'
-    ;
-
 formalParameterList
-    : params+=formalParameter (',' params+=formalParameter)* (',' dotDotDotParam=lastFormalParameter)?
-    | dotDotDotParam=lastFormalParameter
+    : '(' (params+=formalParameter (',' params+=formalParameter)* (',' dotDotDotParam=lastFormalParameter)?)? ')'
+    | '(' dotDotDotParam=lastFormalParameter ')'
     ;
 
 formalParameter
@@ -554,7 +550,7 @@ lambdaExpression
 // Java8
 lambdaParameters
     : name=IDENTIFIER                                               # simpleIdentifierLambdaParams
-    | '(' paramList=formalParameterList? ')'                        # formalParamListLambdaParams
+    | paramList=formalParameterList?                                # formalParamListLambdaParams
     | '(' names+=IDENTIFIER (',' names+=IDENTIFIER)* ')'            # simpleIdentifierListLambdaParams
     ;
 
