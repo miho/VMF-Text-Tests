@@ -27,13 +27,13 @@ public class Test {
 
         long timeStampBegin = System.nanoTime();
 
-        for(int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 1000; i++) {
             String out = unparser.unparse(model);
         }
 
         long timeStampEnd = System.nanoTime();
 
-        System.out.println("Duration: " + (timeStampEnd-timeStampBegin)*1e-9);
+        System.out.println("Duration: " + (timeStampEnd - timeStampBegin) * 1e-9);
 
     }
 
@@ -47,8 +47,8 @@ public class Test {
 
         System.out.println("PARSED");
 
-        model.vmf().content().stream().filter(e->e instanceof ClassDeclaration).map(e->(ClassDeclaration)e).
-                filter(cls->"Java8RungeKutta".equals(cls.getClassName())).forEach(cls->cls.setClassName(cls.getClassName()+"Out"));
+        model.vmf().content().stream().filter(e -> e instanceof ClassDeclaration).map(e -> (ClassDeclaration) e).
+                filter(cls -> "Java8RungeKutta".equals(cls.getClassName())).forEach(cls -> cls.setClassName(cls.getClassName() + "Out"));
 
         Java8ModelUnparser unparser = new Java8ModelUnparser();
         unparser.setFormatter(new MyFormatter());
@@ -68,17 +68,17 @@ public class Test {
 
         System.out.println("\nRUNNING original version:");
 
-        originalClass.getMethod("main",String[].class).invoke(null, (Object)new String[0]);
+        originalClass.getMethod("main", String[].class).invoke(null, (Object) new String[0]);
 
         double valueOrig = originalClass.getField("value").getDouble(null);
 
         System.out.println("\nRUNNING unparsed version:");
 
-        unparsedClass.getMethod("main",String[].class).invoke(null, (Object)new String[0]);
+        unparsedClass.getMethod("main", String[].class).invoke(null, (Object) new String[0]);
 
         double valueUnparsed = originalClass.getField("value").getDouble(null);
 
-        Assert.assertTrue(valueOrig!=0);
+        Assert.assertTrue(valueOrig != 0);
         Assert.assertEquals(valueOrig, valueUnparsed, 1e-12);
 
     }
@@ -111,7 +111,7 @@ public class Test {
 
         long timeStampBegin = System.nanoTime();
 
-        for(int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 1000; i++) {
 
 
             String out = unparser.unparse(model);
@@ -120,7 +120,7 @@ public class Test {
 
         long timeStampEnd = System.nanoTime();
 
-        System.out.println("Duration: " + (timeStampEnd-timeStampBegin)*1e-9);
+        System.out.println("Duration: " + (timeStampEnd - timeStampBegin) * 1e-9);
 
     }
 
@@ -299,9 +299,12 @@ public class Test {
         Java8ModelParser parser = new Java8ModelParser();
         Java8Model model = parser.parse(code);
 
-        model.vmf().content().stream(MethodDeclaration.class).filter(mD->mD.getType().getVoidType()!=null).
-                forEach(m->
-                   m.getParams().getParams().add(parser.parseFormalParameter("int insP"))
+        model.vmf().content().stream(MethodDeclaration.class).
+                filter(mD -> mD.getType().getVoidType()).
+                forEach(m ->
+                        m.getParams().getParams().add(
+                                parser.parseFormalParameter("int insP")
+                        )
                 );
 
         Java8ModelUnparser unparser = new Java8ModelUnparser();
@@ -363,10 +366,10 @@ class MyFormatter extends BaseFormatter {
 //                || prevRuleText.equals("=")
 //                ) {
 //            w.append(" ");
-        } else if(
+        } else if (
                 !(getPrevRuleInfo().getParentObject() instanceof QualifiedName)
-                && !(ruleInfo.getParentObject() instanceof PackageDeclaration)
-                ){
+                        && !(ruleInfo.getParentObject() instanceof PackageDeclaration)
+                ) {
             w.append(" ");
         }
 

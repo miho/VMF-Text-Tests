@@ -881,6 +881,11 @@ TypeMap() {
     'java.lang.Double.toHexString(entry)'
   )
   FLOAT_LITERAL -> java.lang.Double  via 'java.lang.Double.parseDouble(entry.getText())'
+
+  (rule: VOID    -> type: java.lang.Boolean) = {
+      toType:   'java.lang.Boolean.parseBoolean(entry.getText())',
+      toString: '"void"'
+  }
 }
 
 */
@@ -897,5 +902,6 @@ interface PackageDeclaration {
     String packageNameAsString();
 
 }
+
 
 */
