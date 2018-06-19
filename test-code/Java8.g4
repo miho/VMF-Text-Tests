@@ -883,8 +883,9 @@ TypeMap() {
   FLOAT_LITERAL -> java.lang.Double  via 'java.lang.Double.parseDouble(entry.getText())'
 
   (rule: VOID    -> type: java.lang.Boolean) = {
-      toType:   'java.lang.Boolean.parseBoolean(entry.getText())',
-      toString: '"void"'
+      toType:   '"void".equals(entry.getText())',
+      toString: '"void"',
+      default:  'false'
   }
 }
 
@@ -900,6 +901,13 @@ interface PackageDeclaration {
 
     @DelegateTo(className="eu.mihosoft.vmftext.tests.java8.PackageDeclarationDelegate")
     String packageNameAsString();
+
+}
+
+interface MethodDeclaration {
+
+    @DelegateTo(className="eu.mihosoft.vmftext.tests.java8.MethodDeclarationDelegate")
+    boolean returnsVoid();
 
 }
 

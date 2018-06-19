@@ -300,7 +300,7 @@ public class Test {
         Java8Model model = parser.parse(code);
 
         model.vmf().content().stream(MethodDeclaration.class).
-                filter(mD -> mD.getType().getVoidType()).
+                filter(MethodDeclaration::returnsVoid).
                 forEach(m ->
                         m.getParams().getParams().add(
                                 parser.parseFormalParameter("int insP")
