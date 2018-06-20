@@ -9,3 +9,5 @@ VMF-Text-Tests.iml
 /.project
 
 .settings/
+
+.antlr/
