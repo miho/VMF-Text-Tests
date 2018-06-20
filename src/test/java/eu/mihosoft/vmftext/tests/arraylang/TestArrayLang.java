@@ -8,10 +8,11 @@ import org.junit.Assert;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import org.junit.Test;
 
 
-public class Test {
-    @org.junit.Test
+public class TestArrayLang {
+    @Test
     public void parseModelTest() {
         ArrayLangModelParser parser = new ArrayLangModelParser();
         ArrayLangModel model1 = parser.parse("(1.0)");
@@ -25,7 +26,7 @@ public class Test {
         Assert.assertEquals(VList.newInstance(Arrays.asList(1.0,1.2,2.3)), array2.getValues());
     }
 
-    @org.junit.Test
+    @Test
     public void unparseModelTest() {
 
         ArrayLangModel model1 = ArrayLangModel.newInstance();
@@ -42,7 +43,7 @@ public class Test {
 
     }
 
-    @org.junit.Test
+    @Test
     public void parseUnparseModelTest() {
 
         ArrayLangModelParser parser1 = new ArrayLangModelParser();

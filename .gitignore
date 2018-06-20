@@ -10,4 +10,6 @@ VMF-Text-Tests.iml
 
 .settings/
 
+/.vscode/
+
 .antlr/
