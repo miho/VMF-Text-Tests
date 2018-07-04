@@ -280,7 +280,7 @@ public class Test {
 
 
     @org.junit.Test
-    public void testChangeVoidMethod() throws Exception {
+    public void testChangeVoidMethods() throws Exception {
 
         String code = "" +
                 "class MyClass {\n" +
@@ -301,6 +301,49 @@ public class Test {
 
         model.vmf().content().stream(MethodDeclaration.class).
                 filter(MethodDeclaration::returnsVoid).
+                forEach(m ->
+                        m.getParams().getParams().add(
+                                parser.parseFormalParameter("int insP")
+                        )
+                );
+
+        Java8ModelUnparser unparser = new Java8ModelUnparser();
+        unparser.setFormatter(new MyFormatter());
+
+        String transformed = unparser.unparse(model);
+
+        System.out.println("Original:    " + code);
+        System.out.println("Transformed: " + transformed);
+
+        Java8Model transformedModel = parser.parse(transformed);
+
+        Assert.assertEquals(model, transformedModel);
+
+    }
+
+    @org.junit.Test
+    public void testChangeOnParamMethods() throws Exception {
+
+        String code = "" +
+                "class MyClass {\n" +
+                "  public int m1(String a) {return 0;}\n" +
+                "  public void m2(int a, int b) {\n" +
+                "    // do something\n" +
+                "  }\n" +
+                "  public java.util.List<String> m3(String a, String b) {\n" +
+                "    class InnerClass {\n" +
+                "      private void innerMethod1(String b) {}\n" +
+                "      private void innerMethod2() {}\n" +
+                "    }\n" +
+                "    return null;\n" +
+                "  }\n" +
+                "}\n";
+
+        Java8ModelParser parser = new Java8ModelParser();
+        Java8Model model = parser.parse(code);
+
+        model.vmf().content().stream(MethodDeclaration.class).
+                filter(m-> m.getParams().getParams().size()==1).
                 forEach(m ->
                         m.getParams().getParams().add(
                                 parser.parseFormalParameter("int insP")
