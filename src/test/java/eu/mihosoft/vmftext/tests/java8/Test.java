@@ -4,6 +4,7 @@ import eu.mihosoft.vmftext.tests.java8.parser.Java8ModelParser;
 import eu.mihosoft.vmftext.tests.java8.unparser.BaseFormatter;
 import eu.mihosoft.vmftext.tests.java8.unparser.Formatter;
 import eu.mihosoft.vmftext.tests.java8.unparser.Java8ModelUnparser;
+import org.graalvm.compiler.phases.common.inlining.walker.MethodInvocation;
 import org.junit.Assert;
 import org.mdkt.compiler.InMemoryJavaCompiler;
 
@@ -363,6 +364,59 @@ public class Test {
         Assert.assertEquals(model, transformedModel);
 
     }
+
+    @org.junit.Test
+    public void testScopeInstrumentations() throws Exception {
+
+        String code = "" +
+                "class MyClass {\n" +
+                "  public int m1(String a) {return 0;}\n" +
+                "  public void m2(int a, int b) {\n" +
+                "    // do something\n" +
+                "  }\n" +
+                "  public java.util.List<String> m3(String a, String b) {\n" +
+                "    class InnerClass {\n" +
+                "      private void innerMethod1(String b) {}\n" +
+                "      private void innerMethod2() {}\n" +
+                "    }\n" +
+                "    return null;\n" +
+                "  }\n" +
+                "}\n";
+
+        Java8ModelParser parser = new Java8ModelParser();
+        Java8Model model = parser.parse(code);
+
+        model.vmf().content().stream(MethodDeclaration.class).
+                forEach(m -> {
+                    BlockStatement statement =
+                            parser.parseBlockStatement(
+                                    "System.out.println(\"> entering '"
+                                            + m.getMethodName() + "()'\");"
+                            );
+                    m.getBody().getMethodBlock().getStatements().add(0,statement);
+                });
+
+        long numInstrumentationCalls = model.vmf().content().stream(MethodCall.class).filter(
+                mC->"println".equals(mC.getMethodName())).count();
+
+        // the instrumentation is expected to add 5 method calls
+        Assert.assertEquals(5, numInstrumentationCalls);
+
+        Java8ModelUnparser unparser = new Java8ModelUnparser();
+        unparser.setFormatter(new MyFormatter());
+
+        String transformed = unparser.unparse(model);
+
+        System.out.println("Original:    " + code);
+        System.out.println("Transformed: " + transformed);
+
+        Java8Model transformedModel = parser.parse(transformed);
+
+        Assert.assertEquals(model, transformedModel);
+
+    }
+
+
 }
 
 class MyFormatter extends BaseFormatter {
