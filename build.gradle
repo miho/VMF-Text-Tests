@@ -1,11 +1,4 @@
-apply plugin: 'java'
-
-sourceCompatibility = '1.8'
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
-if (!hasProperty('mainClass')) {
-    ext.mainClass = 'eu.mihosoft.vmftext.tutorial.Main'
-}
+import java.text.SimpleDateFormat
 
 buildscript {
     repositories {
@@ -16,6 +9,23 @@ buildscript {
     dependencies {
         classpath group: 'eu.mihosoft.vmf', name: 'vmf-text', version: '0.1-SNAPSHOT'
     }
+}
+
+plugins {
+    id 'com.github.hierynomus.license' version '0.14.0'
+    id 'maven-publish'
+    id 'net.nemerosa.versioning' version '2.4.0'
+    id 'com.jfrog.bintray' version '1.7.2'
+    id 'com.github.ben-manes.versions' version '0.13.0'
+}
+
+apply plugin: 'java'
+
+sourceCompatibility = '1.8'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+if (!hasProperty('mainClass')) {
+    ext.mainClass = 'eu.mihosoft.vmftext.tutorial.Main'
 }
 
 task wrapper(type: Wrapper) {
@@ -212,3 +222,28 @@ test.dependsOn('vmfGenModelSources')
 
 // fix current working directory on android
 test { forkEvery = 1; workingDir = { projectDir } }
+
+// -------------------------------
+
+license {
+
+    header = rootProject.file('config/HEADER')
+    strictCheck = true
+    ignoreFailures = true
+    mapping {
+        java   = 'SLASHSTAR_STYLE'
+        groovy = 'SLASHSTAR_STYLE'
+        fxml   = 'XML_STYLE'
+    }
+
+    ext.yearCurrent  = new SimpleDateFormat("yyyy").format(new Date())
+    ext.yearSince1   = '2017'
+    ext.author1 = 'Michael Hoffer <info@michaelhoffer.de>'
+    ext.yearSince2   = '2017'
+    ext.author2 = 'Goethe Center for Scientific Computing, University Frankfurt'
+
+    exclude '**/*.svg'
+
+    exclude "$buildDir"
+
+}
