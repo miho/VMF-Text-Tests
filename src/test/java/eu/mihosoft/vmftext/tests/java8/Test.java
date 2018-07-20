@@ -27,7 +27,6 @@ import eu.mihosoft.vmftext.tests.java8.parser.Java8ModelParser;
 import eu.mihosoft.vmftext.tests.java8.unparser.BaseFormatter;
 import eu.mihosoft.vmftext.tests.java8.unparser.Formatter;
 import eu.mihosoft.vmftext.tests.java8.unparser.Java8ModelUnparser;
-import org.graalvm.compiler.phases.common.inlining.walker.MethodInvocation;
 import org.junit.Assert;
 import org.mdkt.compiler.InMemoryJavaCompiler;
 

@@ -44,8 +44,11 @@ import org.junit.Assert;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 public class Test {
@@ -102,10 +105,10 @@ public class Test {
         String contentOrig = compileAndRunMiniJava(
                 new File("test-code/MiniJavaLongCodeFileTest1.java")
         );
-        String contentUP   = compileAndRunMiniJava(s1);
+        String contentUP = compileAndRunMiniJava(s1);
         Assert.assertTrue(!contentOrig.isEmpty());
         Assert.assertTrue(!contentUP.isEmpty());
-        Assert.assertEquals(contentOrig,contentUP);
+        Assert.assertEquals(contentOrig, contentUP);
 
     }
 
@@ -242,11 +245,11 @@ public class Test {
 
         // add a variable declaration
         classDeclaration.getVarDeclarations().add(FieldDeclaration.newBuilder().withDecl(
-                        VarDeclaration.newBuilder().withVarType(
-                                Type.newBuilder().withTypeName("int").
-                                        withArrayType(true).build()).
-                                withName("myGeneratedVar").build()).
-                        build()
+                VarDeclaration.newBuilder().withVarType(
+                        Type.newBuilder().withTypeName("int").
+                                withArrayType(true).build()).
+                        withName("myGeneratedVar").build()).
+                build()
         );
 
         classDeclaration.getVarDeclarations().
@@ -336,8 +339,8 @@ public class Test {
 
         try {
             Statement s = parser.parsePrintStatement("a = 2;");
-        } catch (Exception ex ) {
-            didThrow[0]  =true;
+        } catch (Exception ex) {
+            didThrow[0] = true;
         }
 
         Assert.assertTrue("Trying to parse a print-statement and specifying variable-assignment code should throw an exception.", didThrow[0]);
@@ -348,7 +351,7 @@ public class Test {
             parser.getErrorListeners().add(new ANTLRErrorListener() {
                 @Override
                 public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
-                    didError[0]  = true;
+                    didError[0] = true;
                 }
 
                 @Override
@@ -365,8 +368,8 @@ public class Test {
             });
             ClassDeclaration cDecl = parser.parseClassDeclaration("a = 2;");
             System.out.println("cDecl: " + cDecl);
-        } catch (Exception ex ) {
-            didThrow[0]  = true;
+        } catch (Exception ex) {
+            didThrow[0] = true;
         }
 
         Assert.assertTrue("Trying to parse a class-decl. Should cause the error listeners to trigger.", didError[0]);
@@ -374,7 +377,51 @@ public class Test {
 
     }
 
-
+//    @org.junit.Test
+//    public void lexicalPreservationTest() {
+//        String code = "class MyClass {\n  public int m1() {return 0;}\n}";
+//        ClassDeclaration cDecl = new MiniJavaModelParser().parseClassDeclaration(code);
+//
+//        List<CodeRange> ranges = cDecl.vmf().content().stream(CodeElement.class).
+//                map(cE -> cE.getCodeRange()).collect(Collectors.toList());
+//
+//        List<CodeRange> newRanges = new ArrayList<>();
+//
+//        CodeRange prevRange = null;
+//        for (CodeRange r : ranges) {
+//
+//            System.out.println(
+//                    "-> " + r.getStart().getIndex() +
+//                            ":" + r.getStop().getIndex() + "\n"
+//                             + code.substring(r.getStart().getIndex(), r.getStop().getIndex()+1)+"");
+//
+//
+//            if (prevRange == null) {
+//                prevRange = r;
+//                continue;
+//            }
+//
+////            if (prevRange.getStop().getIndex() != r.getStart().getIndex()) {
+////
+////                CodeRange newR = CodeRange.newBuilder().
+////                        withStart(prevRange.getStop()).
+////                        withStop(r.getStart()).build();
+////
+////                newRanges.add(newR);
+////
+////                System.out.println(
+////                        "-> " + newR.getStart().getIndex() +
+////                                " -> " + newR.getStop().getIndex() + ": '"
+////                               /* + code.substring(newR.getStart().getIndex(), newR.getStop().getIndex())*/+"'");
+////            }
+//
+//            prevRange = r;
+//        }
+//
+//
+//    }
+//
+//
 }
 
 
