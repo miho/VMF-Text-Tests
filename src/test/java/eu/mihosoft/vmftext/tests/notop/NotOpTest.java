@@ -23,9 +23,9 @@
  */
 package eu.mihosoft.vmftext.tests.notop;
 
-import eu.mihosoft.vmftext.tests.notoptest.NotOpModel;
-import eu.mihosoft.vmftext.tests.notoptest.parser.NotOpModelParser;
-import eu.mihosoft.vmftext.tests.notoptest.unparser.NotOpModelUnparser;
+import eu.mihosoft.vmftext.tests.notop.NotOpModel;
+import eu.mihosoft.vmftext.tests.notop.parser.NotOpModelParser;
+import eu.mihosoft.vmftext.tests.notop.unparser.NotOpModelUnparser;
 import org.junit.Assert;
 import org.junit.Test;
 
