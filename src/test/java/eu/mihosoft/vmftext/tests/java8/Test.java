@@ -56,6 +56,7 @@ public class Test {
 
         long timeStampEnd = System.nanoTime();
 
+        // TODO replace with proper JMH
         System.out.println("Duration: " + (timeStampEnd - timeStampBegin) * 1e-9);
 
     }
