@@ -1,6 +1,6 @@
 # VMF-Text-Tests
 
-## Executing Tests
+## Executing the Tests
 
 ### Requirements
 
