@@ -1,5 +1,8 @@
 # VMF-Text-Tests
 
+**Tests are now part of the [VMF-Text](https://github.com/miho/VMF-Text) repository.**
+
+```
 ## Executing the Tests
 
 ### Requirements
@@ -28,3 +31,4 @@ Navigate to the [Gradle](http://www.gradle.org/) project (e.g., `path/to/VMF-Tex
 ### Viewing the Report
 
 An HTML version of the test report is located in the build folder `build/reports/tests/test/index.html`.
+```
